@@ -62,7 +62,6 @@ radius = 320.894
 script = ExtResource("1_531d2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-rotation = 1.5708
 sprite_frames = SubResource("SpriteFrames_8wy44")
 animation = &"Shooting"
 

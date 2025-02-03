@@ -86,3 +86,4 @@ func _on_hammer_area_entered(body: Area2D) -> void:
 				body.take_damage(10)  # Adjust damage as necessary
 		else:
 			print("Hit something else")
+		

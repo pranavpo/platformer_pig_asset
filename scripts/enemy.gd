@@ -2,7 +2,7 @@ extends Area2D
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
 var velocity = Vector2.ZERO
 var gravity_enabled = true  # Whether gravity is applied
-@export var speed: float = 100.0  # Movement speed
+@export var speed: float = 50.0  # Movement speed
 var direction: int = 1
 @onready var tilemaplayer: TileMapLayer = get_parent().get_node("TileMapLayer")
 @export var left = 120
@@ -14,7 +14,9 @@ var player
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	#health_bar.init_health(hp)
+	#print(health_bar)
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -48,11 +50,16 @@ func _process(delta: float) -> void:
 	# Apply velocity for vertical movement
 	position += Vector2(0, velocity.y * delta)
 
+
 func take_damage(damage):
-	hp -= 10
 	if hp == 0:
 		direction = 0
 		$AnimatedSprite2D.play("dead")
+	else:
+		hp -= 10
+		$AnimatedSprite2D.play("hit")
+	
+	#health_bar.health = hp
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
@@ -86,3 +93,12 @@ func _on_bomb_timer_timeout() -> void:
 		throw_bomb(player.global_position)  # Throw at player's last known position
 	else:
 		bomb_timer.stop()  # Stop throwing if player is gone
+
+func _on_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Player"):
+		body.modulate = Color(1, 0, 0, 1)
+
+
+func _on_body_exited(body: Node2D) -> void:
+	if body.is_in_group("Player"):
+		body.modulate = Color(1, 1, 1, 1)
